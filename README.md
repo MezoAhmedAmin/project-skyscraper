@@ -1,2 +1,2 @@
 # Project: Skyscraper
-An Infinite Platformr Game
+An Infinite Platformer Game
