@@ -36,6 +36,11 @@ class Game():
     with open("./Data/highscore.txt", "rb") as f:
       self.hs = load(f)
 
+    #* Colors
+    self.black = (0, 0, 0)
+    self.white = (255, 255, 255)
+    self.dGray = (97, 97, 97)
+
     #* Fonts
     self.font = "./Assets/Fonts/ComicCodeLigatures-Regular.otf"
     self.fontSB = "./Assets/Fonts/ComicCodeLigatures-SemiBold.otf"
@@ -50,22 +55,13 @@ class Game():
     self.setting = pygame.image.load("./Assets/Images/setting.png")
 
     #* Buttons
-    self.startBtnImg = pygame.image.load("Assets/Images/Buttons/start.png")
-    self.startBtn = Button((self.swidth / 4) - (self.startBtnImg.get_width() / 2), self.sheight / 2 + 20, self.startBtnImg)
-    self.exitBtnImg = pygame.image.load("Assets/Images/Buttons/exit.png")
-    self.exitBtn = Button((self.swidth * .75) - (self.exitBtnImg.get_width() / 2), self.sheight / 2 + 20, self.exitBtnImg)
-    self.resumeBtnImg = pygame.image.load("./Assets/Images/Buttons/resume.png")
-    self.resumeBtn = Button((self.swidth / 3) - (self.resumeBtnImg.get_width() / 2), (self.sheight / 2 + 20), self.resumeBtnImg)
-    self.backBtnImg = pygame.image.load("./Assets/Images/Buttons/back.png")
-    self.backBtn = Button((self.swidth * (2/3)) - (self.backBtnImg.get_width() / 2), (self.sheight / 2 + 20), self.backBtnImg)
-    self.retryBtnImg = pygame.image.load("./Assets/Images/Buttons/retry.png")
-    self.retryBtn = Button((self.swidth / 3) - (self.resumeBtnImg.get_width() / 2), (self.sheight / 2 + 20), self.retryBtnImg)
-    self.settingsBtnImg = pygame.image.load("./Assets/Images/Buttons/settings.png")
-    self.settingsBtn = Button((self.swidth / 2) - (self.resumeBtnImg.get_width() / 2), (self.sheight / 2 + 20), self.settingsBtnImg)
-
-    #* Colors
-    self.black = (0, 0, 0)
-    self.white = (255, 255, 255)
+    self.btnImg = pygame.image.load("./Assets/Images/btn.png")
+    self.startBtn = Button((self.swidth / 4) - (self.btnImg.get_width() / 2), self.sheight / 2 + 20, self.btnImg, "Start", self.font, self.black)
+    self.exitBtn = Button((self.swidth * .75) - (self.btnImg.get_width() / 2), self.sheight / 2 + 20, self.btnImg, "Exit", self.font, self.black)
+    self.resumeBtn = Button((self.swidth / 3) - (self.btnImg.get_width() / 2), (self.sheight / 2 + 20), self.btnImg, "Resume", self.font, self.black)
+    self.backBtn = Button((self.swidth * (2/3)) - (self.btnImg.get_width() / 2), (self.sheight / 2 + 20), self.btnImg, "Back", self.font, self.black)
+    self.retryBtn = Button((self.swidth / 3) - (self.btnImg.get_width() / 2), (self.sheight / 2 + 20), self.btnImg, "Retry", self.font, self.black)
+    self.settingsBtn = Button((self.swidth / 2) - (self.btnImg.get_width() / 2), (self.sheight / 2 + 20), self.btnImg, "Settings", self.font, self.black)
 
     #* Keys
     self.escKey = False
@@ -114,8 +110,8 @@ class Game():
 
         if len(self.platGroup) < self.maxPlats:
           platWidth = randint(100, 140)
-          platX = randint(250, self.swidth - platWidth - 250)
-          platY = self.platform.rect.y - randint(80, 125)
+          platX = randint(270, self.swidth - platWidth - 270)
+          platY = self.platform.rect.y - randint(85, 128)
           platType = randint(0, 1)
           self.platform = gclasses.Platform(platX, platY, platWidth, platType, self)
           self.platGroup.add(self.platform)
@@ -163,15 +159,39 @@ class Game():
             dump(self.hs, f)
           self.drawText(f"Score: {self.score}   Highscore: {self.hs}", 30, self.fontSB, self.swidth / 2, self.sheight / 2 - 40 + (tan(self.i) * 4.5), self.white)
           if self.i < 81:
-            self.i += 0.0025
-          if self.fade > 90:
-            if self.retryBtn.draw(self.display, self.clicked, self.clickedLast, self.buttonFX if self.settings[1] == 1 else None, ((self.swidth / 3) - (self.resumeBtnImg.get_width() / 2), (self.sheight / 2 + 15) - tan(self.i - 0.05) * 4.5)):
-              self.initVals()
-              self.playing = True
-          if self.fade > 100:
-            if self.backBtn.draw(self.display, self.clicked, self.clickedLast, self.buttonFX if self.settings[1] == 1 else None, ((self.swidth * (2/3)) - (self.backBtnImg.get_width() / 2), (self.sheight / 2 + 15) - tan(self.i - 0.075) * 4.5)):
-              self.playing = False
-              self.currentMenu = MainMenu(self)
+            if self.settings[2] == 2:
+              self.i += 0.0025
+            elif self.settings[2] == 1:
+              self.i += 0.0075
+            else:
+              self.i = 81
+          if self.settings[2] == 2:
+            if self.fade > 90:
+              if self.retryBtn.draw(self.display, self.clicked, self.clickedLast, self.buttonFX if self.settings[1] == 1 else None, ((self.swidth / 3) - (self.btnImg.get_width() / 2), (self.sheight / 2 + 15) - tan(self.i - 0.05) * 4.5)):
+                self.initVals()
+                self.playing = True
+            if self.fade > 100:
+              if self.backBtn.draw(self.display, self.clicked, self.clickedLast, self.buttonFX if self.settings[1] == 1 else None, ((self.swidth * (2/3)) - (self.btnImg.get_width() / 2), (self.sheight / 2 + 15) - tan(self.i - 0.075) * 4.5)):
+                self.playing = False
+                self.currentMenu = MainMenu(self)
+          elif self.settings[2] == 1:
+            if self.fade > 90:
+              if self.retryBtn.draw(self.display, self.clicked, self.clickedLast, self.buttonFX if self.settings[1] == 1 else None, ((self.swidth / 3) - (self.btnImg.get_width() / 2), (self.sheight / 2 + 15) - tan(self.i - 0.15) * 4.5)):
+                self.initVals()
+                self.playing = True
+            if self.fade > 100:
+              if self.backBtn.draw(self.display, self.clicked, self.clickedLast, self.buttonFX if self.settings[1] == 1 else None, ((self.swidth * (2/3)) - (self.btnImg.get_width() / 2), (self.sheight / 2 + 15) - tan(self.i - 0.225) * 4.5)):
+                self.playing = False
+                self.currentMenu = MainMenu(self)
+          else:
+            if self.fade > 90:
+              if self.retryBtn.draw(self.display, self.clicked, self.clickedLast, self.buttonFX if self.settings[1] == 1 else None, ((self.swidth / 3) - (self.btnImg.get_width() / 2), (self.sheight / 2 + 15) - tan(self.i) * 4.5)):
+                self.initVals()
+                self.playing = True
+            if self.fade > 100:
+              if self.backBtn.draw(self.display, self.clicked, self.clickedLast, self.buttonFX if self.settings[1] == 1 else None, ((self.swidth * (2/3)) - (self.btnImg.get_width() / 2), (self.sheight / 2 + 15) - tan(self.i) * 4.5)):
+                self.playing = False
+                self.currentMenu = MainMenu(self)
 
       #* Blitting to the Screen
       self.window.blit(self.display, (0, 0))

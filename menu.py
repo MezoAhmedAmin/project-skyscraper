@@ -43,8 +43,12 @@ class MainMenu(Menu):
 
       pygame.display.set_caption("Skyscraper - Main Menu")
 
-      self.i += 0.01
-      self.game.drawText("Skyscraper", 100, self.game.fontB, self.game.swidth / 2, (self.game.sheight / 2) - 110 - (sin(self.i) * 16), self.game.black)
+      if self.game.settings[2] == 2:
+        self.i += 0.01
+      elif self.game.settings[2] == 1:
+        self.i += 0.005
+      self.game.drawText("Project:", 40, self.game.fontB, 345, (self.game.sheight / 2) - 175 - (sin(self.i) * 18), self.game.black)
+      self.game.drawText("Skyscraper", 100, self.game.fontB, self.game.swidth / 2, (self.game.sheight / 2) - 110 - (sin(self.i) * 18), self.game.black)
 
       self.blitScreen()
       self.game.resetKeys()
@@ -80,7 +84,7 @@ class PauseMenu(Menu):
         self.game.currentMenu = MainMenu(self.game)
 
       #* Exit Button
-      if self.game.backBtn.draw(self.game.display, self.game.clicked, self.game.clickedLast, self.game.buttonFX if self.game.settings[1] == 1 else None, ((self.game.swidth * (2/3)) - (self.game.backBtnImg.get_width() / 2), (self.game.sheight / 2 + 20))):
+      if self.game.backBtn.draw(self.game.display, self.game.clicked, self.game.clickedLast, self.game.buttonFX if self.game.settings[1] == 1 else None, ((self.game.swidth * (2/3)) - (self.game.btnImg.get_width() / 2), (self.game.sheight / 2 + 20))):
         self.runDisplay = False
         self.game.playing = False
         self.game.currentMenu = MainMenu(self.game)
@@ -90,7 +94,10 @@ class PauseMenu(Menu):
 
       pygame.display.set_caption("Skyscraper - Game Paused")
 
-      self.i += 0.02
+      if self.game.settings[2] == 2:
+        self.i += 0.02
+      elif self.game.settings[2] == 1:
+        self.i += 0.01
       self.game.drawText("Game Paused", 90, self.game.fontB, self.game.swidth / 2, (self.game.sheight / 2) - 70 - (sin(self.i) * 8), self.game.black)
 
       self.blitScreen()
@@ -112,6 +119,11 @@ class SettingsMenu(Menu):
         "name": "Sounds",
         "value": values[1],
         "values": ["OFF", "ON"]
+      },
+      {
+        "name": "Text Animation",
+        "value": values[2],
+        "values": ["OFF", "LOW", "NORMAL"]
       }
     ]
 
@@ -128,7 +140,7 @@ class SettingsMenu(Menu):
         sI += 1
         rect = pygame.Rect(60, (sI * 101) + 70, 984, 96)
         self.game.display.blit(self.game.setting, rect)
-        self.game.drawText(f"{setting['name']}: {setting['values'][setting['value']]}", 35, self.game.fontSB, rect.centerx, rect.y + 40, self.game.black)
+        self.game.drawText(f"{setting['name']}: {setting['values'][setting['value']]}", 35, self.game.font, rect.centerx, rect.y + 40, self.game.black)
 
         pos = pygame.mouse.get_pos()
         if rect.collidepoint(pos) and self.game.clicked and not self.game.clickedLast:
@@ -138,10 +150,13 @@ class SettingsMenu(Menu):
           if self.settings[1]["value"] == 1:
             self.game.buttonFX.play()
 
-      self.i += 0.02
+      if self.settings[2]["value"] == 2:
+        self.i += 0.02
+      elif self.settings[2]["value"] == 1:
+        self.i += 0.01
       self.game.drawText("Settings", 90, self.game.fontB, self.game.swidth / 2, 100 - (sin(self.i) * 7), self.game.black)
 
-      if self.game.backBtn.draw(self.game.display, self.game.clicked, self.game.clickedLast, self.game.buttonFX if self.settings[1]["value"] == 1 else None, ((self.game.swidth / 2) - (self.game.backBtnImg.get_width() / 2), self.game.sheight - 100)):
+      if self.game.backBtn.draw(self.game.display, self.game.clicked, self.game.clickedLast, self.game.buttonFX if self.settings[1]["value"] == 1 else None, ((self.game.swidth / 2) - (self.game.btnImg.get_width() / 2), self.game.sheight - 100)):
         self.game.settings = []
         for setting in self.settings:
           self.game.settings.append(setting["value"])

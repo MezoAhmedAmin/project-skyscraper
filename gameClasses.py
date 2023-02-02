@@ -9,11 +9,11 @@ class Platform(pygame.sprite.Sprite):
     platNormal = pygame.image.load("./Assets/Images/platNormal.png")
     platMoving = pygame.image.load("./Assets/Images/platMoving.png")
     self.game = game
-    self.moving = True if type == 1 and self.game.score >= 450 else False
+    self.moving = True if type == 1 and self.game.score >= 400 else False
     self.moveC = randint(0, 50)
     self.direction = choice([-1, 1])
-    self.speed = randint(1, 3) if self.game.score >= 1500 else randint(1, 2)
-    self.max = randint(90, 130)
+    self.speed = randint(1, 3) if self.game.score >= 1450 else randint(1, 2)
+    self.max = randint(100, 130)
     self.image = platMoving if self.moving else platNormal
     self.image = pygame.transform.scale(self.image, (w, 24))
     self.rect = self.image.get_rect()
@@ -25,7 +25,7 @@ class Platform(pygame.sprite.Sprite):
       self.moveC += 1
       self.rect.x += self.direction * self.speed
 
-    if self.moveC >= self.max or self.rect.left <= 194 or self.rect.right >= self.game.swidth - 194:
+    if self.moveC >= self.max or self.rect.left <= 204 or self.rect.right >= self.game.swidth - 204:
       self.direction *= -1
       self.moveC = 0
 
