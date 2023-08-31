@@ -157,7 +157,7 @@ class Game():
           self.hs = self.score if self.score > self.hs else self.hs
           with open("./Data/highscore.txt", "wb") as f:
             dump(self.hs, f)
-          self.drawText(f"Score: {self.score}   Highscore: {self.hs}", 30, self.fontSB, self.swidth / 2, self.sheight / 2 - 40 + (tan(self.i) * 4.5), self.white)
+          self.drawText(f"Score: {self.score}   Highscore: {self.hs}", 30, self.fontB, self.swidth / 2, self.sheight / 2 - 40 + (tan(self.i) * 4.5), self.white)
           if self.i < 81:
             if self.settings[2] == 2:
               self.i += 0.0025
@@ -283,9 +283,9 @@ class Game():
   def drawHud(self):
     if self.settings[0] == 1:
       self.display.blit(self.hud, (0, self.sheight - self.hud.get_height()))
-      self.drawText(f"FPS: {str(int(self.clock.get_fps()))}", 25, self.fontSB, 10, self.sheight - 40, self.black, False)
-      self.drawText(f"SCORE: {self.score}     HIGH SCORE: {self.hs}", 25, self.fontSB, 200, self.sheight - 40, self.black, False)
+      self.drawText(f"FPS: {str(int(self.clock.get_fps()))}", 25, self.font, 10, self.sheight - 40, self.black, False)
+      self.drawText(f"SCORE: {self.score}     HIGH SCORE: {self.hs}", 25, self.font, 200, self.sheight - 40, self.black, False)
     else:
       self.display.blit(self.hud, (0, 0))
-      self.drawText(f"FPS: {str(int(self.clock.get_fps()))}", 25, self.fontSB, 10, 0, self.black, False)
-      self.drawText(f"SCORE: {self.score}     HIGH SCORE: {self.hs}", 25, self.fontSB, 200, 0, self.black, False)
+      self.drawText(f"FPS: {str(int(self.clock.get_fps()))}", 25, self.font, 10, 0, self.black, False)
+      self.drawText(f"SCORE: {self.score}     HIGH SCORE: {self.hs}", 25, self.font, 200, 0, self.black, False)
