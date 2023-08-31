@@ -42,13 +42,12 @@ class Game():
     self.dGray = (97, 97, 97)
 
     #* Fonts
-    self.font = "./Assets/Fonts/ComicCodeLigatures-Regular.otf"
-    self.fontSB = "./Assets/Fonts/ComicCodeLigatures-SemiBold.otf"
-    self.fontB = "./Assets/Fonts/ComicCodeLigatures-Bold.otf"
+    self.font = "./Assets/Fonts/fontNormal.ttf"
+    self.fontB = "./Assets/Fonts/fontBold.ttf"
 
     #* Images
-    self.bcMain = pygame.image.load("./Assets/Images/bc-main.png")
-    self.bcSky = pygame.image.load("./Assets/Images/bc-sky.png")
+    self.main = pygame.image.load("./Assets/Images/main.png")
+    self.sky = pygame.image.load("./Assets/Images/sky.png")
     self.hud = pygame.image.load("./Assets/Images/hud.png")
     self.overlay = pygame.image.load("./Assets/Images/overlay.png")
     self.fadeTrans = pygame.image.load("./Assets/Images/fadeTrans.png")
@@ -102,7 +101,7 @@ class Game():
         if self.escKey:
           self.playing = False
           self.currentMenu = PauseMenu(self)
-        self.display.blit(self.bcSky, (0, 0))
+        self.display.blit(self.sky, (0, 0))
 
         pygame.display.set_caption("Skyscraper - Game")
 
@@ -283,9 +282,7 @@ class Game():
   def drawHud(self):
     if self.settings[0] == 1:
       self.display.blit(self.hud, (0, self.sheight - self.hud.get_height()))
-      self.drawText(f"FPS: {str(int(self.clock.get_fps()))}", 25, self.font, 10, self.sheight - 40, self.black, False)
-      self.drawText(f"SCORE: {self.score}     HIGH SCORE: {self.hs}", 25, self.font, 200, self.sheight - 40, self.black, False)
+      self.drawText(f"FPS: {str(int(self.clock.get_fps()))}         SCORE: {self.score}         HIGH SCORE: {self.hs}", 25, self.fontB, 10, self.sheight - 37, self.black, False)
     else:
       self.display.blit(self.hud, (0, 0))
-      self.drawText(f"FPS: {str(int(self.clock.get_fps()))}", 25, self.font, 10, 0, self.black, False)
-      self.drawText(f"SCORE: {self.score}     HIGH SCORE: {self.hs}", 25, self.font, 200, 0, self.black, False)
+      self.drawText(f"FPS: {str(int(self.clock.get_fps()))}         SCORE: {self.score}         HIGH SCORE: {self.hs}", 25, self.fontB, 10, 3, self.black, False)

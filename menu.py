@@ -28,7 +28,7 @@ class MainMenu(Menu):
     self.runDisplay = True
     while self.runDisplay:
       self.game.checkEvents()
-      self.game.display.blit(self.game.bcMain, (0, 0))
+      self.game.display.blit(self.game.main, (0, 0))
 
       if self.game.startBtn.draw(self.game.display, self.game.clicked, self.game.clickedLast, self.game.buttonFX if self.game.settings[1] == 1 else None):
         self.game.initVals()
@@ -47,8 +47,8 @@ class MainMenu(Menu):
         self.i += 0.01
       elif self.game.settings[2] == 1:
         self.i += 0.005
-      self.game.drawText("Project:", 40, self.game.fontB, 345, (self.game.sheight / 2) - 175 - (sin(self.i) * 18), self.game.black)
-      self.game.drawText("Skyscraper", 100, self.game.fontB, self.game.swidth / 2, (self.game.sheight / 2) - 110 - (sin(self.i) * 18), self.game.black)
+      self.game.drawText("Project:", 40, self.game.fontB, 345, (self.game.sheight / 2) - 175 - (sin(self.i) * 18), self.game.white)
+      self.game.drawText("Skyscraper", 100, self.game.fontB, self.game.swidth / 2, (self.game.sheight / 2) - 110 - (sin(self.i) * 18), self.game.white)
 
       self.blitScreen()
       self.game.resetKeys()
@@ -131,7 +131,7 @@ class SettingsMenu(Menu):
     self.runDisplay = True
     while self.runDisplay:
       self.game.checkEvents()
-      self.game.display.blit(self.game.bcMain, (0, 0))
+      self.game.display.blit(self.game.main, (0, 0))
 
       pygame.display.set_caption("Skyscraper - Settings")
 
